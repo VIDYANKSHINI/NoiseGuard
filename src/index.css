@@ -2005,3 +2005,9 @@
   inherits: false;
   initial-value: 0;
 }
+
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
