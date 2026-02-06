@@ -11,6 +11,25 @@ type Screen = 'splash' | 'home' | 'report' | 'success' | 'status' | 'map';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('splash');
+  const [currentTime, setCurrentTime] = useState('');
+
+  useEffect(() => {
+    // Update time immediately
+    updateTime();
+    
+    // Update time every minute
+    const interval = setInterval(updateTime, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const updateTime = () => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const formattedTime = `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')}`;
+    setCurrentTime(formattedTime);
+  };
 
   const handleNavigate = (screen: string) => {
     setCurrentScreen(screen as Screen);
@@ -50,7 +69,7 @@ export default function App() {
         }}>
           {/* Status Bar - Enhanced */}
           <div className="absolute top-0 left-0 right-0 h-12 bg-transparent z-10 flex items-center justify-between px-8 pt-2">
-            <div className="text-[15px] font-semibold text-gray-900">9:41</div>
+            <div className="text-[15px] font-semibold text-gray-900">{currentTime || '9:41'}</div>
             <div className="flex items-center gap-1.5">
               {/* Cellular signal */}
               <div className="flex items-end gap-[2px]">
