@@ -17,3 +17,19 @@ export function HomeScreen({ onNavigate }: HomeScreenProps) {
   useEffect(() => {
     fetchStats();
   }, []);
+
+  const fetchStats = async () => {
+    try {
+      const response = await getStats();
+      console.log('Fetched stats:', response);
+      if (response.success && response.stats) {
+        setStats({
+          totalReports: response.stats.totalReports || 0,
+          thisWeekReports: response.stats.thisWeekReports || 0,
+          activeComplaints: response.stats.activeComplaints || 0,
+        });
+      }
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    }
+  };
